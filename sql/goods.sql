@@ -1,0 +1,212 @@
+
+-- 商品扩展属性管理表
+create table `myshop_attribute` (
+	`id` smallint unsigned not null auto_increment,
+	`cate_id` smallint unsigned not null default 0 comment '商品类型id，myshop_goods_type主键id',
+	`attr_name` varchar(15) not null default '' comment '属性名称',
+	`attr_input_type` tinyint not null default 1 comment '属性的添加类别，0-手工录入，1-列表选择，2-多行文本输入',
+	`attr_type` tinyint not null default 1 comment '属性是否是多选，0-否，1-是。如果多选，则可以自定义属性，并可以根据值不同定不同价格,重新设置0-唯一属性1-单选属性2-复选属性',
+	`attr_values` text comment '当attr_input_type=1时，attr_name对应的值，如attr_name=颜色，则attr_values=蓝色、绿色、红色...',
+	`attr_index` tinyint not null default 0 comment '该属性是否可以检索，0-不需要检索，1-关键字检索，2-范围检索，该属性如果可以检索，则可以通过该属性找到有该属性的商品',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`is_linked` tinyint unsigned not null default 0 comment '是否关联，0-否，1-是，为1时，把与该属性值相同的商品推荐给用户',
+	`attr_group` tinyint unsigned not null default 0 comment '属性分组，相同的为一个属性组，该值取自于表myshop_goods_type的attr_group的值的顺序',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品品牌表
+create table `myshop_brand` (
+	`id` smallint unsigned not null auto_increment,
+	`brand_name` varchar(20) not null default '' comment '品牌名称',
+	`logo` varchar(100) not null default '' comment '品牌logo',
+	`brand_des` varchar(200) not null default '' comment '品牌描述',
+	`site_url` varchar(100) not null default '' comment '品牌网址',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`is_show` tinyint not null default 1 comment '是否显示，0-不，1-是',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 首页推荐商品分类表
+create table `myshop_cate_recommend` (
+	`id` smallint unsigned not null auto_increment,
+	`rec_type` tinyint unsigned not null default 0 comment '推荐类型',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品分类
+create table `myshop_category` (
+	`id` smallint unsigned not null auto_increment,
+	`cate_name` varchar(15) not null default '' comment '分类名称',
+	`parent_id` smallint unsigned not null default 0 comment '父id', 
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`keywords` varchar(100) not null default '' comment '关键字',
+	`des` varchar(255) not null default '' comment '描述',
+	`measure_unit` varchar(10) not null default '' comment '计量单位',
+	`recommend` varchar(10) not null default '' comment '设置首页推荐，1-精品，2-最新，3-热门',
+	`show_in_nav` tinyint not null default 0 comment '是否显示在导航栏，0-不，1-是',
+	`is_show` tinyint not null default 0 comment '是否在前台显示，0-不，1-是',
+	`price_range` tinyint not null default 0 comment '价格区间个数',
+	`style_url` varchar(100) not null default '' comment '该分类单独的样式表文件路径',
+	`filter_attr` varchar(255) not null default '' comment '',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 用户商品收藏表
+create table `myshop_collect_goods` (
+	`id` int unsigned not null auto_increment,
+	`user_id` int unsigned not null default 0 comment '用户id，取自表myshop_users的主键id',
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`created_time` int unsigned not null default 0 comment '收藏时间',
+	`is_attention` tinyint not null default 0 comment '是否关注该收藏商品，0-否，1-是',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品表
+create table `myshop_goods` (
+	`id` int unsigned not null auto_increment,
+	`cate_id` smallint unsigned not null default 0 comment '分类id，myshop_category主键id',
+	`goods_name` varchar(100) not null default '' comment '商品名称',
+	`short_name` varchar(20) not null default '' comment '商品短名称',
+	`name_style` varchar(50) not null default '' comment '商品名称显示的样式，包括颜色和字体样式，格式如#ff00ff+strong',
+	`sn` varchar(50) not null default '' comment '商品唯一货号',
+	`brand_id` smallint unsigned not null default 0 comment '品牌id，myshop_brand主键id',
+	`goods_num` smallint unsigned not null default 0 comment '库存量',
+	`warn_num` smallint unsigned not null default 0 comment '报警库存量',
+	`weight` decimal(10,3) not null default 0.000 comment '商品重量，以千克为单位',
+	`market_price` decimal(10,2) not null default 0.00 comment '市场价',
+	`shop_price` decimal(10,2) not null default 0.00 comment '本店价',
+	`promote_price` decimal(10,2) not null default 0.00 comment '促销价',
+	`promote_start_date` int unsigned not null default 0 comment '促销开始时间',
+	`promote_end_date` int unsigned not null default 0 comment '促销结束时间',
+	`keywords` varchar(100) not null default '' comment '关键字',
+	`click_count` int unsigned not null default 0 comment '点击量',
+	`des` varchar(255) not null default '' comment '商品简介',
+	`goods_thumb` varchar(100) not null default '' comment '缩略图',
+	`goods_img` varchar(100) not null default '' comment '大图',
+	`original_img` varchar(100) not null default '' comment '原图',
+	`is_real` tinyint not null default 1 comment '商品是否为实物，0-否，1-是',
+	`extension_code` varchar(30) not null default '' comment '商品扩展属性，比如虚拟卡',
+	`is_on_sale` tinyint not null default 1 comment '是否在销售，0-否，1-是',
+	`is_alone_sale` tinyint not null default 1 comment '是否单独销售，0-否，1-是，不单独销售则只能作为配件或赠品销售',
+	`is_shipping` tinyint not null default 0 comment '是否配送，0-否，1-是',
+	`is_delete` tinyint not null default 0 comment '该商品是否已删除，0-否，1-是',
+	`is_best` tinyint not null default 0 comment '该商品是否是精品，0-否，1-是',
+	`is_new` tinyint not null default 0 comment '该商品是否是新品，0-否，1-是',
+	`is_hot` tinyint not null default 0 comment '该商品是否是热销，0-否，1-是',
+	`is_promote` tinyint not null default 0 comment '该商品是否是特价销售，0-否，1-是',
+	`bonus_type_id` tinyint not null default 0 comment '购买该商品能领到的红包类型',
+	`integral` smallint unsigned not null default 0 comment '购买商品可以使用的积分数量',
+	`goods_type` smallint unsigned not null default 0 comment '商品所属类型id,取自表myshop_goods_type的主键id',
+	`give_integral` smallint not null default -1 comment '赠送的消费积分数',
+	`rank_integral` smallint not null default -1 comment '赠送的等级积分数',
+	`seller_note` varchar(255) not null default '' comment '商家备注信息，仅商家可见',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`created_time` int unsigned not null default 0 comment '商品添加时间',
+	`update_time` int unsigned not null default 0 comment '商品更新时间',
+	`suppliers_id` smallint unsigned not null default 0 comment '供应商编号',
+	`provider_name` varchar(50) not null default '' comment '供货人的名称',
+	`is_check` tinyint not null default 1 comment '是否检查',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 参加活动商品表
+create table `myshop_goods_activity` (
+	`id` int unsigned not null auto_increment,
+	`act_name` varchar(100) not null default '' comment '活动名称',
+	`des` text comment '活动描述',
+	`act_type` tinyint not null default 0 comment '活动类型，0-夺宝，1-团购，2-拍卖，4-礼包',
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`goods_name` varchar(100) not null default '' comment '商品名称',
+	`start_time` int unsigned not null default 0 comment '活动开始时间',
+	`end_time` int unsigned not null default 0 comment '活动结束时间',
+	`is_finished` tinyint not null default 0 comment '活动是否结束，0-结束，1-未结束',
+	`ext_info` text comment '序列化后的促销活动的配置信息，包括最低价，最高价，出价幅度，保证金等',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品关联文章表
+create table `myshop_goods_article` (
+	`id` int unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`art_id` int unsigned not null default 0 comment '商品id，取自表myshop_article的主键id',
+	`admin_id` tinyint unsigned not null default 0 comment '管理员编号',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品对应的扩展属性表
+create table `myshop_goods_attr` (
+	`id` int unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`attr_id` int unsigned not null default 0 comment '属性类型id，取自表myshop_attribute的主键id',
+	`attr_value` text comment '该属性的值',
+	`attr_price` decimal(10,2) not null default 0.00 comment '该属性对应在商品原价格上要加的价格',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品扩展分类表
+create table `myshop_goods_cate` (
+	`id` smallint unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`cate_id` smallint unsigned not null default 0 comment '商品类型id，取自表myshop_category的主键id',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品图片列表
+create table `myshop_goods_gallery` (
+	`id` int unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`img_url` varchar(100) not null default '' comment '图片地址',
+	`des` varchar(100) not null default '' comment '图片描述',
+	`thumb_url` varchar(100) not null default '' comment '缩略图地址',
+	`img_original` varchar(100) not null default '' comment '原始图片地址',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 网站所有的商品类型表
+create table `myshop_goods_type` (
+	`id` int unsigned not null auto_increment,
+	`cate_name` varchar(50) not null default '' comment '类型名称',
+	`enabled` tinyint not null default 1 comment '类型状态，0-不可用，1-可用。不可用类型，在添加商品时选择商品属性将不可选',
+	`attr_group` varchar(255) not null default '' comment '商品属性分组.将一个商品类型的属性分成组，显示的时候也是按组显示。该字段的值显示在属性的前一行，类似于标题的作用',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 商品配件表
+create table `myshop_group_goods` (
+	`id` int unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`price` decimal(10,2) not null default 0.00 comment '配件商品的价格',
+	`admin_id` tinyint unsigned not null default 0 comment '添加该配件的管理员编号',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 网站搜索关键字
+create table `myshop_keywords` (
+	`id` int unsigned not null auto_increment,
+	`keyword` varchar(50) not null default '' comment '搜索的关键字', 
+	`search_count` smallint unsigned not null default 0 comment '搜索的次数，按天累加',
+	`search_date` date not null default '0000-00-00' comment '搜索日期',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 相关商品表
+create table `myshop_link_goods` (
+	`id` int unsigned not null auto_increment,
+	`goods_id` int unsigned not null default 0 comment '商品id，取自表myshop_goods的主键id',
+	`link_goods_id` int unsigned not null default 0 comment '被关联的商品id，取自表myshop_goods的主键id',
+	`is_double` tinyint not null default 0 comment '是否是双向关联，0-否，1-是',
+	`admin_id` tinyint unsigned not null default 0 comment '添加该配件的管理员编号',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 供应商列表
+create table `myshop_suppliers` (
+	`id` smallint unsigned not null auto_increment,
+	`sup_name` varchar(50) not null default '' comment '供应商名称',
+	`des` text comment '供应商描述',
+	`is_check` tinyint not null default 1 comment '状态，0-无效，1-有效',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+
+

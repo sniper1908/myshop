@@ -1,0 +1,92 @@
+-- 创建数据库
+create database myshop default character set utf8;
+
+-- 切换数据库
+use myshop;
+
+-- 广告
+create table `myshop_ad` (
+	`id` smallint unsigned not null auto_increment,
+	`adv_id` tinyint unsigned not null default 0 comment '广告位ID，取自表myshop_advertising',
+	`ad_name` varchar(30) not null default '' comment '广告名称',
+	`ad_link` varchar(100) not null default '' comment '广告链接地址',
+	`ad_img_url` varchar(100) not null default '' comment '广告图片地址',
+	`ad_open` tinyint not null default 1 comment '广告是否开启，0-否，1-是',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`created_time` int unsigned not null default 0 comment '添加时间',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 管理员
+create table `myshop_admin` (
+	`id` tinyint unsigned not null auto_increment,
+	`username` varchar(10) not null default '' comment '管理员账号',
+	`admin_pass` char(32) not null default '' comment '管理员密码',
+	`email` varchar(20) not null default '' comment '管理员邮箱',
+	`admin_level` tinyint not null default 0 comment '管理员等级',
+	`status` tinyint not null default 0 comment '该管理员是否被激活，0-否，1-是',
+	`created_time` int unsigned not null default 0 comment '创建时间',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 菜单
+create table `myshop_sys_menu` (
+	`id` smallint unsigned not null auto_increment,
+	`menu_name` varchar(10) not null default '' comment '菜单名称',
+	`parent_id` smallint unsigned not null default 0 comment '父级id',
+	`sys_route_id` smallint unsigned not null default 0 comment 'sys_route表主键id',
+	`route_controller` varchar(15) not null default '' comment '菜单对应路由的控制器名',
+	`menu_route` varchar(50) not null default '' comment '菜单对应路由地址，形如admin/index/index',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`json_data` varchar(255) not null default '' comment '自定义数据，JSON格式',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 角色
+create table `myshop_role` (
+	`id` tinyint unsigned not null auto_increment,
+	`role_name` varchar(10) not null default '' comment '角色名称',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 用户角色关系表，此表与myshop_assignment重复，去除
+create table `myshop_admin_role` (
+	`id` smallint unsigned not null auto_increment,
+	`admin_id` tinyint unsigned not null default 0 comment 'myshop_admin表主键id', 
+	`role_id` tinyint unsigned not null default 0 comment 'myshop_role表主键id', 
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 权限表
+create table `myshop_permission` (
+	`id` tinyint unsigned not null auto_increment,
+	`role_id` tinyint unsigned not null default 0 comment 'myshop_role表主键id',
+	--`permission_name` varchar(10) not null default '' comment '权限名称',
+	`permission_type` varchar(20) not null default '' comment '权限类型,menu-权限菜单，page-权限页面元素，file-权限文件',
+	`data_id` smallint unsigned not null default 0 comment '权限类型对应的表主键id',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	`json_data` varchar(255) not null default '' comment '该角色具有的权限形成的数组，JSON格式',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 角色权限关系表
+-- 用户角色关系表，此表与myshop_assignment重复，保留
+create table `myshop_assignment` (
+	`id` smallint unsigned not null auto_increment,
+	`admin_id` tinyint unsigned not null default 0 comment 'myshop_admin表主键id', 
+	`role_id` tinyint unsigned not null default 0 comment 'myshop_role表主键id',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+-- 路由列表
+create table `myshop_sys_route` (
+	`id` smallint unsigned not null auto_increment,
+	`route_module` varchar(15) not null default '' comment '所属模块',
+	`route_controller` varchar(15) not null default '' comment '所属控制器',
+	`route_action` varchar(15) not null default '' comment '所属方法',
+	`route_url` varchar(50) not null default '' comment '路由地址',
+	`order_num` tinyint unsigned not null default 0 comment '排序数字',
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+

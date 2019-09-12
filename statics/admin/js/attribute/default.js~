@@ -1,0 +1,36 @@
+
+jQuery(function($){
+	// 排序
+	var order_num_value = $('#order_num').attr('data-value');
+	order_num_value = parseInt(order_num_value);
+	formSpinner(order_num_value,'order_num');
+	function formSpinner(spinnerValue,spinnerId){
+		alert(spinnerId)
+		if (spinnerValue) {
+			$('#'+spinnerId).ace_spinner({
+				value:spinnerValue,
+				min:0,
+				max:1000,
+				step:1, 
+				on_sides: true, 
+				icon_up:'icon-plus smaller-75', 
+				icon_down:'icon-minus smaller-75', 
+				btn_up_class:'btn-success' , 
+				btn_down_class:'btn-danger'
+			});
+		}else{
+			$('#'+spinnerId).ace_spinner({
+				value:0,
+				min:0,
+				max:1000,
+				step:1, 
+				on_sides: true, 
+				icon_up:'icon-plus smaller-75', 
+				icon_down:'icon-minus smaller-75', 
+				btn_up_class:'btn-success' , 
+				btn_down_class:'btn-danger'
+			});
+		}
+	}
+});
+

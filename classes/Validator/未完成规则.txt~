@@ -1,0 +1,5 @@
+1.captcha 验证码
+2.exist 值是否存在数据表中
+3.file 文件 rule ：['primaryImage', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024*1024*1024]
+4.filter 过滤：[['username', 'email'], 'filter', 'filter' => 'trim', 'skipOnArray' => true]
+5.unique 值在数据表中唯一

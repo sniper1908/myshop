@@ -1,0 +1,111 @@
+-- MySQL dump 10.16  Distrib 10.1.21-MariaDB, for Win32 (AMD64)
+--
+-- Host: localhost    Database: localhost
+-- ------------------------------------------------------
+-- Server version	10.1.21-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `myshop_sys_route`
+--
+
+DROP TABLE IF EXISTS `myshop_sys_route`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `myshop_sys_route` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `route_module` varchar(15) NOT NULL DEFAULT '' COMMENT '所属模块',
+  `route_controller` varchar(15) NOT NULL DEFAULT '' COMMENT '所属控制器',
+  `route_action` varchar(15) NOT NULL DEFAULT '' COMMENT '所属方法',
+  `route_url` varchar(50) NOT NULL DEFAULT '' COMMENT '路由地址',
+  `order_num` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序数字',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `myshop_sys_route`
+--
+
+LOCK TABLES `myshop_sys_route` WRITE;
+/*!40000 ALTER TABLE `myshop_sys_route` DISABLE KEYS */;
+INSERT INTO `myshop_sys_route` VALUES 
+(1,'admin','sysMenu','*','admin/sysMenu',1),
+(2,'admin','sysMenu','index','admin/sysMenu/index',2),
+(3,'admin','sysMenu','add','admin/sysMenu/add',3),
+(4,'admin','sysMenu','edit','admin/sysMenu/edit',4),
+(5,'admin','sysMenu','delete','admin/sysMenu/delete',5),
+(6,'admin','sysMenu','view','admin/sysMenu/view',6),
+(7,'admin','sysRoute','*','admin/sysRoute',1),
+(8,'admin','sysRoute','index','admin/sysRoute/index',2),
+(9,'admin','sysRoute','add','admin/sysRoute/add',3),
+(10,'admin','sysRoute','edit','admin/sysRoute/edit',4),
+(11,'admin','sysRoute','delete','admin/sysRoute/delete',5),
+(12,'admin','sysRoute','view','admin/sysRoute/view',6),
+(13,'admin','permission','*','admin/permission',1),
+(14,'admin','permission','index','admin/permission/index',2),
+(15,'admin','permission','add','admin/permission/add',3),
+(16,'admin','permission','edit','admin/permission/edit',4),
+(17,'admin','permission','delete','admin/permission/delete',5),
+(18,'admin','permission','view','admin/permission/view',6),
+(19,'admin','role','*','admin/role',1),
+(20,'admin','role','index','admin/role/index',2),
+(21,'admin','role','add','admin/role/add',3),
+(22,'admin','role','edit','admin/role/edit',4),
+(23,'admin','role','delete','admin/role/delete',5),
+(24,'admin','role','view','admin/role/view',6),
+(25,'admin','assignment','*','admin/assignment',1),
+(26,'admin','assignment','index','admin/assignment/index',2),
+(27,'admin','assignment','add','admin/assignment/add',3),
+(28,'admin','assignment','edit','admin/assignment/edit',4),
+(29,'admin','assignment','delete','admin/assignment/delete',5),
+(30,'admin','assignment','view','admin/assignment/view',6),
+(31,'admin','admin','*','admin/admin',1),
+(32,'admin','admin','index','admin/admin/index',2),
+(33,'admin','admin','add','admin/admin/add',3),
+(34,'admin','admin','edit','admin/admin/edit',4),
+(35,'admin','admin','delete','admin/admin/delete',5),
+(36,'admin','admin','view','admin/admin/view',6),
+(37,'admin','admin','editPwd','admin/admin/editPwd',7),
+(38,'admin','theme','*','admin/theme',1),
+(39,'admin','theme','index','admin/theme/index',2),
+(40,'admin','theme','add','admin/theme/add',3),
+(41,'admin','theme','edit','admin/theme/edit',4),
+(42,'admin','theme','delete','admin/theme/delete',5),
+(43,'admin','theme','view','admin/theme/view',6),
+(44,'admin','article','*','admin/article',1),
+(45,'admin','article','index','admin/article/index',2),
+(46,'admin','article','add','admin/article/add',3),
+(47,'admin','article','edit','admin/article/edit',4),
+(48,'admin','article','delete','admin/article/delete',5),
+(49,'admin','article','view','admin/article/view',6),
+(50,'admin','statistics','*','admin/statistics',1),
+(51,'admin','statistics','index','admin/statistics/index',2),
+(52,'admin','statistics','add','admin/statistics/add',3),
+(53,'admin','statistics','edit','admin/statistics/edit',4),
+(54,'admin','statistics','delete','admin/statistics/delete',5),
+(55,'admin','statistics','view','admin/statistics/view',6)
+;
+/*!40000 ALTER TABLE `myshop_sys_route` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-12-12  9:59:51
